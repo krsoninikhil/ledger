@@ -5,7 +5,7 @@ import { createStackNavigator, createBottomTabNavigator } from 'react-navigation
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import StatsScreen from '../screens/StatsScreen';
-import AddNewScreen from '../screens/HomeScreen';
+import AddNewScreen from '../screens/AddNewScreen';
 import TxnsScreen from '../screens/TxnsScreen';
 
 const HomeStack = createStackNavigator(

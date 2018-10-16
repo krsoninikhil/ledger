@@ -10,7 +10,11 @@ const styles = StyleSheet.create({
     row: {
       padding: 5,
       flexDirection: 'row',
-      flex: 1,
+			justifyContent: 'center',
+    },
+    column: {
+      padding: 5,
+      flexDirection: 'column',
     },
     itemContainer: {
       flex: 1,
@@ -42,6 +46,18 @@ const styles = StyleSheet.create({
     },
     leftBox80: {
       flex: 4,
+      paddingHorizontal: 2,
+      paddingVertical: 2,
+      alignItems: 'flex-start',
+    },
+    rightBox40: {
+      flex: 0.4,
+      paddingHorizontal: 2,
+      paddingVertical: 2,
+      alignItems: 'flex-end',
+    },
+    leftBox60: {
+      flex: 0.6,
       paddingHorizontal: 2,
       paddingVertical: 2,
       alignItems: 'flex-start',
@@ -111,8 +127,34 @@ const styles = StyleSheet.create({
       alignItems: 'flex-start',
     },
     empty: {
-        padding: 0,
+      padding: 0,
     },
+    textInput: {
+			borderBottomColor: 'gray',
+			paddingHorizontal: 5,
+			paddingTop: 3,
+			marginTop: 5,
+			marginHorizontal: 3,
+			fontSize: 17,
+			lineHeight: 23,
+			height: 50,
+		},
+		padding7: {
+			padding: 7,
+		},
+		fullButton: {
+			paddingHorizontal: 15,
+      paddingVertical: 10,
+			alignItems: 'center',
+			flex: 1,
+			backgroundColor: '#2e78b7',
+			height: 50,
+			borderRadius: 5, 
+		},
+		btnText: {
+			color: '#fff',
+			textAlign: 'center',
+		}
   });
   
 export default styles;
