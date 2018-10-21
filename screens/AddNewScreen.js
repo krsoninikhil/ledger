@@ -7,6 +7,7 @@ import {
 import DatePicker from 'react-native-datepicker'
 
 import Styles from '../constants/Stylesheet';
+import Customer from '../database/Customer';
 
 export default class AddNewScreen extends React.Component {
   static navigationOptions = {
@@ -21,8 +22,10 @@ export default class AddNewScreen extends React.Component {
       contact: this.props.contact ? this.props.contact : '',
       amount: this.props.amount ? this.props.amount : '',
       date: this.props.date ? this.props.date : this.today,
+      custId: null,
     }
     this.addNewEntry = this.addNewEntry.bind(this);
+    Customer.init(); 
   }
 
   getDate() {
@@ -33,6 +36,7 @@ export default class AddNewScreen extends React.Component {
 
   addNewEntry() {
     console.log(this.state.custName + this.state.contact + this.state.amount + this.state.date);
+    Customer.insert(this.state);
   }
 
   render() {

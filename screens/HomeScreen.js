@@ -8,21 +8,25 @@ import {
 import Styles from '../constants/Stylesheet';
 import { FlatList } from 'react-native-gesture-handler';
 import Strings from '../constants/Strings';
+import Customer from '../database/Customer';
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
     title: "Ledger",
   };
 
+  constructor(props) {
+    super(props);
+    this.state = {data: []};
+    Customer.findAll(this);
+    console.log(this.state);
+  }
+
   render() {
     return (
       <View style={Styles.root}>
         <FlatList style={Styles.container} contentContainerStyle={Styles.contentContainer}
-          data={[
-            {name: 'Akhilesh Rawat', balance: -35},
-            {name: 'Aanisha Mishra', balance: 50},
-            {name: 'Nikhil Soni', balance: 50},
-          ]}
+          data={this.state.data}
           renderItem={({item}) => (
             <View style={Styles.itemContainer}>
               <TouchableNativeFeedback
