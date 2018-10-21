@@ -9,12 +9,12 @@ import Strings from '../constants/Strings';
 import Txn from '../database/Txn';
 
 class TxnBox extends React.Component {
-    static days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-
+    
     getDay(date) {
         let parts = date.split('-');
-        date = new Date(`${parts[1]+1}/${parts[0]}/${parts[2]}`);
-        return this.days[date.getDay()];
+        date = new Date(`${parts[1]}/${parts[0]}/${parts[2]}`);
+        let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        return days[date.getDay()];
     }
 
     render() {
