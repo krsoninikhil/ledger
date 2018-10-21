@@ -3,11 +3,13 @@ import {
   View,
   TextInput, 
   Button,
+  Alert,
 } from 'react-native';
 import DatePicker from 'react-native-datepicker'
 
 import Styles from '../constants/Stylesheet';
 import Customer from '../database/Customer';
+import Txn from '../database/Txn';
 
 export default class AddNewScreen extends React.Component {
   static navigationOptions = {
@@ -25,7 +27,8 @@ export default class AddNewScreen extends React.Component {
       custId: null,
     }
     this.addNewEntry = this.addNewEntry.bind(this);
-    Customer.init(); 
+    Customer.init();
+    Txn.init();
   }
 
   getDate() {
@@ -36,14 +39,30 @@ export default class AddNewScreen extends React.Component {
 
   addNewEntry() {
     console.log(this.state.custName + this.state.contact + this.state.amount + this.state.date);
-    Customer.insert(this.state);
+    if (!this.state.custId) {
+      Alert.alert(
+        'Add New',
+        'A new customer entry will be made as prefilled name field is not used!',
+        [
+          {text: 'Cancel', onPress: () => console.log('insertion cancelled')},
+          {text: 'OK', onPress: () => {
+            Customer.insert(this.state).then((res) => {
+              this.setState({custId: res.insertId});
+              Txn.insert(this.state);
+            });
+          }},
+        ]
+      );
+    } else {
+      Txn.insert(this.state);
+    }
   }
 
   render() {
     return (
       <View style={Styles.itemContainerVertical}>
         <View>
-          <TextInput placeholder='Name'
+          <TextInput placeholder='Customer Name'
             onChangeText={(text) => this.setState({custName: text})} 
             value={this.state.custName} style={Styles.textInput} />
           <TextInput placeholder='Contact (Optional)' 

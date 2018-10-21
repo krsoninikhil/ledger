@@ -18,8 +18,9 @@ export default class HomeScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {data: []};
-    Customer.findAll(this);
-    console.log(this.state);
+    Customer.findAll().then(
+      (rows) => this.setState({data: rows._array})
+    );
   }
 
   render() {

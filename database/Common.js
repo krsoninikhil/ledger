@@ -26,34 +26,33 @@ const CommonDbOps = {
         });
     },
 
-    select: function (state, table, cols='*', cond='1', condVars=[]) {
+    select: function (table, cols='*', cond='1', condVars=[]) {
         cols = cols == '*' ? cols : cols.join(', ');
-        db.transaction(tx => {
-            tx.executeSql(
-                `select ${cols} from ${table} where ${cond};`,
-                condVars,
-                (_, {rows}) => { 
-                    state.setState({data: rows._array});
-                    console.log(rows._array);
-                    console.log(state.state.data)
-                }, 
-                (_, err) => console.log(err)
-            );
+        return new Promise(function(resolve, reject) {
+            db.transaction(tx => {
+                tx.executeSql(
+                    `select ${cols} from ${table} where ${cond};`,
+                    condVars,
+                    (_, {rows}) => resolve(rows), 
+                    (_, err) => console.log(err)
+                );
+            });
         });
     },
 
     insert: function (table, cols='*', vals) {
         cols = cols.join(', ');
         vals = vals.join('", "');
-        console.log(`insert into ${table} (${cols}) values (${vals});`);
-        db.transaction(tx => {
-            tx.executeSql(
-                //`insert into ${table} (${cols}) values ("${vals}");`
-                `insert into customers (name, contact) values ('nikhil', '9758334169');`,
-                [],
-                (_, res) => console.log("success") && console.log(res),
-                (_, err) => console.log(err)
-            );
+        return new Promise(function(resolve, reject) {
+            db.transaction(tx => {
+                tx.executeSql(
+                    `insert into ${table} (${cols}) values ("${vals}");`,
+                    // `insert into customers (name, contact) values ('nikhil', '9758334169');`,
+                    [],
+                    (_, res) => resolve(res),
+                    (_, err) => console.log(err)
+                );
+            });
         });
     },
 }

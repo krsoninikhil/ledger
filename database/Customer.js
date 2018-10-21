@@ -9,17 +9,21 @@ const Customer = {
                 id integer primary key not null, 
                 name text not null unique, 
                 contact varchar(13),
-                balance int(3) default 0
+                balance int default 0
             );`
         );
     },
 
     insert: function (data) {
-        CommonDbOps.insert(table, ['name', 'contact'], ['Nikhil', '9758334169']);
+        return CommonDbOps.insert(
+            table, 
+            ['name', 'contact', 'balance'], 
+            [data.name, data.contact, data.amount] 
+        );
     },
 
-    findAll: function (state) {
-        CommonDbOps.select(state, table);
+    findAll: function () {
+        return CommonDbOps.select(table);
     }
 
 }
