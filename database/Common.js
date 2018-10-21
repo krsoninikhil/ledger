@@ -3,7 +3,7 @@ import Expo, { SQLite } from 'expo';
 const db = SQLite.openDatabase('ledgerV1.db');
 
 const CommonDbOps = {
-    init: function () {
+    init: () => {
         db.transaction(tx => {
             tx.executeSql(
                 `create table if not exists txns (
@@ -15,7 +15,7 @@ const CommonDbOps = {
         });
     },
 
-    run: function (q) {
+    run: (q) => {
         db.transaction(tx => {
             tx.executeSql(
                 q, 
@@ -26,9 +26,9 @@ const CommonDbOps = {
         });
     },
 
-    select: function (table, cols='*', cond='1', condVars=[]) {
+    select: (table, cols='*', cond='1', condVars=[]) => {
         cols = cols == '*' ? cols : cols.join(', ');
-        return new Promise(function(resolve, reject) {
+        return new Promise((resolve, reject) => {
             db.transaction(tx => {
                 tx.executeSql(
                     `select ${cols} from ${table} where ${cond};`,
@@ -40,21 +40,33 @@ const CommonDbOps = {
         });
     },
 
-    insert: function (table, cols='*', vals) {
+    insert: (table, cols='*', vals) => {
         cols = cols.join(', ');
-        vals = vals.join('", "');
-        return new Promise(function(resolve, reject) {
+        vals = vals.join('", "');console.log(`insert into ${table} (${cols}) values ("${vals}");`);
+        return new Promise((resolve, reject) => {
             db.transaction(tx => {
                 tx.executeSql(
                     `insert into ${table} (${cols}) values ("${vals}");`,
-                    // `insert into customers (name, contact) values ('nikhil', '9758334169');`,
                     [],
+                    (_, res) => resolve(res),
+                    (_, err) => reject(err)
+                );
+            });
+        });
+    },
+
+    update: (table, values, cond, condVars=[]) => {
+        return new Promise((resolve, reject) => {
+            db.transaction(tx => {
+                tx.executeSql(
+                    `update ${table} set ${values} where ${cond};`,
+                    condVars,
                     (_, res) => resolve(res),
                     (_, err) => console.log(err)
                 );
             });
         });
-    },
+    }
 }
 
 export default CommonDbOps;

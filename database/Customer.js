@@ -3,7 +3,7 @@ import CommonDbOps from './Common';
 const table = 'customers';
 
 const Customer = {
-    init: function () {
+    init: () => {
         CommonDbOps.run(
             `create table if not exists ${table} (
                 id integer primary key not null, 
@@ -14,16 +14,20 @@ const Customer = {
         );
     },
 
-    insert: function (data) {
+    insert: (data) => {
         return CommonDbOps.insert(
             table, 
             ['name', 'contact', 'balance'], 
-            [data.name, data.contact, data.amount] 
+            [data.custName, data.contact, data.amount] 
         );
     },
 
-    findAll: function () {
+    findAll: () => {
         return CommonDbOps.select(table);
+    },
+    
+    updateBalance: (custId, change) => {
+        return CommonDbOps.update(`balance = balance + ${change}`, 'custId = ?', [custId]);
     }
 
 }

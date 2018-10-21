@@ -31,7 +31,10 @@ export default class HomeScreen extends React.Component {
           renderItem={({item}) => (
             <View style={Styles.itemContainer}>
               <TouchableNativeFeedback
-                  onPress={() => this.props.navigation.navigate('Txns', {name: item.name})}
+                  onPress={() => this.props.navigation.navigate(
+                    'Txns', 
+                    {name: item.name, custId: item.custId}
+                  )}
                   style={Styles.leftBox80}>
                 <View style={Styles.occupy}>
                   <Text style={Styles.heading}>{item.name}</Text>

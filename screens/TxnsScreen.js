@@ -6,6 +6,7 @@ import {
 import Styles from '../constants/Stylesheet';
 import { FlatList } from 'react-native-gesture-handler';
 import Strings from '../constants/Strings';
+import Txn from '../database/Txn';
 
 class TxnBox extends React.Component {
     render() {
@@ -32,13 +33,18 @@ export default class TxnsScreen extends React.Component {
         title: 'Transactions',
     };
 
+    constructor(props) {
+        super(props);
+        this.state = {txns: []}
+        Txn.findAll().then(
+            (rows) => this.setState({txns: rows._array})
+        );
+    }
+
     render() {
         return (
             <FlatList
-                data={[
-                    {amount: 50, time: '2018-09-31', note: 'This is a sample note. You can also use any reference here. This is a sample note. You can also use any reference here.'},
-                    {amount: 500, time: '2018-10-01', note: 'B2P32: This is a sample reference.'},
-                ]}
+                data={this.state.txns}
                 renderItem={({item}) => (
                     <TxnBox amount={item.amount.toString()} time={item.time} note={item.note} />
                 )}

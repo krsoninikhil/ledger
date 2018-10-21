@@ -24,11 +24,15 @@ export default class AddNewScreen extends React.Component {
       contact: this.props.contact ? this.props.contact : '',
       amount: this.props.amount ? this.props.amount : '',
       date: this.props.date ? this.props.date : this.today,
-      custId: null,
+      custId: this.props.custId ? this.props.custId : null,
     }
     this.addNewEntry = this.addNewEntry.bind(this);
     Customer.init();
     Txn.init();
+  }
+
+  resetState() {
+    this.setState({custName: '', contact: '', amount: '', date: this.today, custId: null});
   }
 
   getDate() {
@@ -48,13 +52,16 @@ export default class AddNewScreen extends React.Component {
           {text: 'OK', onPress: () => {
             Customer.insert(this.state).then((res) => {
               this.setState({custId: res.insertId});
-              Txn.insert(this.state);
+              Txn.insert(this.state).then((res) => console.log('txn inserted'), (err) => console.log(err));
+              this.resetState();
             });
           }},
         ]
-      );
-    } else {
-      Txn.insert(this.state);
+        );
+      } else {
+        Txn.insert(this.state);
+        Customer.updateBalance(this.state.custId, this.state.amount);
+        this.resetState();
     }
   }
 
