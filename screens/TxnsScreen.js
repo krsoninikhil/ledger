@@ -9,12 +9,22 @@ import Strings from '../constants/Strings';
 import Txn from '../database/Txn';
 
 class TxnBox extends React.Component {
+    static days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+    getDay(date) {
+        let parts = date.split('-');
+        date = new Date(`${parts[1]+1}/${parts[0]}/${parts[2]}`);
+        return this.days[date.getDay()];
+    }
+
     render() {
         return (
             <View style={Styles.itemContainerVertical}>
                 <View style={[Styles.itemContainer, {height: 40}]}>
                     <View style={Styles.midBox50}>
-                        <Text style={Styles.heading2}>Tuesday{"\n"}{this.props.time}</Text>
+                        <Text style={Styles.heading2}>
+                            {this.getDay(this.props.date)}{"\n"}{this.props.date}
+                        </Text>
                     </View>
                     <View style={Styles.midBox50}>
                         <Text style={Styles.amount}>{Strings.curr} {this.props.amount}</Text>
@@ -46,7 +56,7 @@ export default class TxnsScreen extends React.Component {
             <FlatList
                 data={this.state.txns}
                 renderItem={({item}) => (
-                    <TxnBox amount={item.amount.toString()} time={item.time} note={item.note} />
+                    <TxnBox amount={item.amount.toString()} date={item.date} note={item.note} />
                 )}
                 keyExtractor={(item, index) => index.toString()}
             />
