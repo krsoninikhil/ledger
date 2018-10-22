@@ -42,7 +42,7 @@ const CommonDbOps = {
 
     insert: (table, cols='*', vals) => {
         cols = cols.join(', ');
-        vals = vals.join('", "');console.log(`insert into ${table} (${cols}) values ("${vals}");`);
+        vals = vals.join('", "');
         return new Promise((resolve, reject) => {
             db.transaction(tx => {
                 tx.executeSql(

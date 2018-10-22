@@ -39,14 +39,14 @@ class TxnBox extends React.Component {
 }
 
 export default class TxnsScreen extends React.Component {
-    static navigationOptions = {
-        title: 'Transactions',
+    static navigationOptions = ({navigation}) => {
+        return {title: `Ledger - ${navigation.getParam('custName', '')}`}
     };
 
     constructor(props) {
-        super(props);
+        super(props);   
         this.state = {txns: []}
-        Txn.findAll().then(
+        Txn.find(this.props.navigation.getParam('custId')).then(
             (rows) => this.setState({txns: rows._array})
         );
     }

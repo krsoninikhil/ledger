@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
     itemContainerVertical: {
       flex: 1,
       backgroundColor: '#fff',
-      minHeight: 130,
+      minHeight: 100,
       borderRadius: 5,
       paddingHorizontal: 0,
       paddingVertical: 0,

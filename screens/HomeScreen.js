@@ -33,7 +33,7 @@ export default class HomeScreen extends React.Component {
               <TouchableNativeFeedback
                   onPress={() => this.props.navigation.navigate(
                     'Txns', 
-                    {name: item.name, custId: item.custId}
+                    {custName: item.name, custId: item.id}
                   )}
                   style={Styles.leftBox80}>
                 <View style={Styles.occupy}>
@@ -43,7 +43,7 @@ export default class HomeScreen extends React.Component {
               </TouchableNativeFeedback>
               <View style={Styles.rightBox20}>
                 <TouchableOpacity style={Styles.button}>
-                  <Text style={Styles.symbol}> + </Text>
+                  <Text style={Styles.symbol} onPress={() => console.log('pressed +')}> + </Text>
                 </TouchableOpacity>
               </View>
             </View>
