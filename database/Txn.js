@@ -16,11 +16,11 @@ const Txn = {
         );
     },
 
-    insert: (data) => {console.log('txn insertion called');
+    insert: (data) => {
         return CommonDbOps.insert(
             table, 
-            ['custId', 'amount', 'date'], 
-            [data.custId, data.amount, data.date]
+            ['custId', 'amount', 'date', 'note'], 
+            [data.custId, data.amount, data.date, data.note]
         );
     },
 
@@ -35,7 +35,7 @@ const Txn = {
     }, 
 
     find: (custId) => {
-        return CommonDbOps.select(table, ['date', 'amount', 'note'], 'custId = ?', [custId]);
+        return CommonDbOps.select(table, 'id desc', ['date', 'amount', 'note'], 'custId = ?', [custId]);
     },
 
 }

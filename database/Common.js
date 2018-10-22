@@ -20,18 +20,19 @@ const CommonDbOps = {
             tx.executeSql(
                 q, 
                 [],
-                (_, res) => console.log("success run"),
+                null,
                 (_, err) => console.log(err)
             );
         });
     },
 
-    select: (table, cols='*', cond='1', condVars=[]) => {
+    select: (table, orderby=null, cols='*', cond='1', condVars=[]) => {
         cols = cols == '*' ? cols : cols.join(', ');
+        orderby = orderby ? `order by ${orderby}` : '';
         return new Promise((resolve, reject) => {
             db.transaction(tx => {
                 tx.executeSql(
-                    `select ${cols} from ${table} where ${cond};`,
+                    `select ${cols} from ${table} where ${cond} ${orderby};`,
                     condVars,
                     (_, {rows}) => resolve(rows), 
                     (_, err) => console.log(err)

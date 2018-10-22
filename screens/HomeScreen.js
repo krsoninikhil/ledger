@@ -13,6 +13,9 @@ import Customer from '../database/Customer';
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
     title: "Ledger",
+    tabBarOnPress: ({navigation}) => {
+      console.log('tab pressed');
+    },
   };
 
   constructor(props) {
@@ -21,6 +24,16 @@ export default class HomeScreen extends React.Component {
     Customer.findAll().then(
       (rows) => this.setState({data: rows._array})
     );
+  }
+
+  goToAddNewTxn(item) {
+    return () => {
+      this.props.navigation.navigate('AddNew', {customer: {
+        custName: item.name, 
+        contact: item.contact, 
+        custId: item.id
+      }});
+    }
   }
 
   render() {
@@ -43,7 +56,7 @@ export default class HomeScreen extends React.Component {
               </TouchableNativeFeedback>
               <View style={Styles.rightBox20}>
                 <TouchableOpacity style={Styles.button}>
-                  <Text style={Styles.symbol} onPress={() => console.log('pressed +')}> + </Text>
+                  <Text style={Styles.symbol} onPress={this.goToAddNewTxn(item)}> + </Text>
                 </TouchableOpacity>
               </View>
             </View>

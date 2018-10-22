@@ -20,20 +20,26 @@ export default class AddNewScreen extends React.Component {
   constructor(props) {
     super(props);
     this.today = this.getDate();
-    this.state = {
-      custName: this.props.custName ? this.props.custName : '',
-      contact: this.props.contact ? this.props.contact : '',
-      amount: this.props.amount ? this.props.amount : '',
-      date: this.props.date ? this.props.date : this.today,
-      custId: this.props.custId ? this.props.custId : null,
-    }
+    this.state = this.extractState(this.props.navigation.getParam('customer'));
     this.addNewEntry = this.addNewEntry.bind(this);
     Customer.init();
     Txn.init();
   }
 
   resetState() {
-    this.setState({custName: '', contact: '', amount: '', date: this.today, custId: null});
+    this.setState(this.extractState({}));
+  }
+
+  extractState(defaultState) {
+    defaultState = defaultState ? defaultState : {};
+    return {
+      custName: defaultState.custName ? defaultState.custName : '',
+      contact: defaultState.contact ? defaultState.contact : '',
+      amount: defaultState.amount ? defaultState.amount : '',
+      date: defaultState.date ? defaultState.date : this.today,
+      note: defaultState.note ? defaultState.note : '',
+      custId: defaultState.custId ? defaultState.custId : null,
+    }
   }
 
   getDate() {
@@ -43,29 +49,31 @@ export default class AddNewScreen extends React.Component {
   }
 
   addNewEntry() {
-    console.log(this.state.custName + this.state.contact + this.state.amount + this.state.date);
     if (!this.state.custId) {
       Alert.alert(
         'Add New',
         'A new customer entry will be made as prefilled name field is not used!',
         [
-          {text: 'Cancel', onPress: () => console.log('insertion cancelled')},
+          {text: 'Cancel', onPress: null},
           {text: 'OK', onPress: () => {
             Customer.insert(this.state).then((res) => {
               this.setState({custId: res.insertId});
               Txn.insert(this.state).then(
                 (res) => ToastAndroid.show('Successfully inserted!', ToastAndroid.SHORT), 
                 (err) => console.log(err)
-              );
-              this.resetState();
+              ).then(() => this.resetState());
             });
           }},
         ]
         );
       } else {
-        Txn.insert(this.state);
-        Customer.updateBalance(this.state.custId, this.state.amount);
-        this.resetState();
+        Txn.insert(this.state).then(
+          (res) => {
+            ToastAndroid.show('Successfully inserted!', ToastAndroid.SHORT);
+            Customer.updateBalance(this.state.custId, this.state.amount);
+          },
+          (err) => console.log(err)
+        ).then(() => this.resetState());
     }
   }
 
@@ -89,6 +97,9 @@ export default class AddNewScreen extends React.Component {
             date={this.state.date} format='DD-MM-YYYY' />
         </View>
         <View style={Styles.column}>
+          <TextInput placeholder='Note (Optional)' 
+            onChangeText={(text) => this.setState({note: text})} 
+            value={this.state.note} style={Styles.textInput} />
           <Button style={Styles.fullButton} title='Submit' onPress={this.addNewEntry} />
         </View>
       </View>

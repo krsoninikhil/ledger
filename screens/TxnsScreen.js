@@ -20,7 +20,7 @@ class TxnBox extends React.Component {
     render() {
         return (
             <View style={Styles.itemContainerVertical}>
-                <View style={[Styles.itemContainer, {height: 40}]}>
+                <View style={[Styles.itemContainer, {height: 50}]}>
                     <View style={Styles.midBox50}>
                         <Text style={Styles.heading2}>
                             {this.getDay(this.props.date)}{"\n"}{this.props.date}

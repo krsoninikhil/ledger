@@ -23,11 +23,11 @@ const Customer = {
     },
 
     findAll: () => {
-        return CommonDbOps.select(table);
+        return CommonDbOps.select(table, 'name');
     },
     
     updateBalance: (custId, change) => {
-        return CommonDbOps.update(`balance = balance + ${change}`, 'custId = ?', [custId]);
+        return CommonDbOps.update(table, `balance = balance + ${change}`, 'id = ?', [custId]);
     }
 
 }
