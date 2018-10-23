@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
     textCenter: {
       color: Colors.text,
       textAlign: 'center',
-      marginVertical: 3,
+      marginVertical: 5,
     },
   });
   
