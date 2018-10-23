@@ -13,19 +13,21 @@ import Customer from '../database/Customer';
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
     title: "Ledger",
-    tabBarOnPress: ({navigation}) => {
-      console.log('tab pressed');
-    },
   };
 
   constructor(props) {
     super(props);
     this.state = {data: []};
-    Customer.findAll().then(
-      (rows) => this.setState({data: rows._array})
-    );
   }
-
+  
+  componentDidMount() {
+    this.props.navigation.addListener('didFocus', () => {
+      Customer.findAll().then(
+        (rows) => this.setState({data: rows._array})
+      );
+    });
+  }
+    
   goToAddNewTxn(item) {
     return () => {
       this.props.navigation.navigate('AddNew', {customer: {
