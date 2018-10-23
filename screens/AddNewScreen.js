@@ -20,10 +20,16 @@ export default class AddNewScreen extends React.Component {
   constructor(props) {
     super(props);
     this.today = this.getDate();
-    this.state = this.extractState(this.props.navigation.getParam('customer'));
+    this.state = this.extractState({});
     this.addNewEntry = this.addNewEntry.bind(this);
     Customer.init();
     Txn.init();
+  }
+
+  componentDidMount() {
+    this.props.navigation.addListener('didFocus', () => {
+      this.setState(this.extractState(this.props.navigation.getParam('customer')));
+    });
   }
 
   resetState() {
