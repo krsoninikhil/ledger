@@ -28,7 +28,15 @@ const Customer = {
     
     updateBalance: (custId, change) => {
         return CommonDbOps.update(table, `balance = balance + ${change}`, 'id = ?', [custId]);
-    }
+    },
+
+    count: () => {
+        return CommonDbOps.count(table);
+    },
+
+    getBalance: () => {
+        return CommonDbOps.run(`select sum(balance) as totalBalance from ${table};`);
+    },
 
 }
 

@@ -15,14 +15,13 @@ const CommonDbOps = {
         });
     },
 
-    run: (q) => {
-        db.transaction(tx => {
-            tx.executeSql(
-                q, 
-                [],
-                null,
-                (_, err) => console.log(err)
-            );
+    run: (q, condVars=[]) => {
+        return new Promise((resolve, reject) => {
+            db.transaction(tx => {
+                tx.executeSql(
+                    q, condVars, (_, {rows}) => resolve(rows) , (_, err) => reject(err)
+                );
+            });
         });
     },
 
@@ -67,7 +66,20 @@ const CommonDbOps = {
                 );
             });
         });
-    }
+    }, 
+
+    count: (table, cond='1', condVars=[]) => {
+        return new Promise((resolve, reject) => {
+            db.transaction(tx => {
+                tx.executeSql(
+                    `select count(*) as count from ${table} where ${cond};`,
+                    condVars,
+                    (_, {rows}) => resolve(rows),
+                    (_, err) => console.log(err)
+                );
+            })
+        });
+    },
 }
 
 export default CommonDbOps;

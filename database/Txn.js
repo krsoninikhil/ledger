@@ -38,6 +38,10 @@ const Txn = {
         return CommonDbOps.select(table, 'id desc', ['date', 'amount', 'note'], 'custId = ?', [custId]);
     },
 
+    count: () => {
+        return CommonDbOps.count(table);
+    },
+
 }
 
 export default Txn;

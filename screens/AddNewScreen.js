@@ -64,11 +64,11 @@ export default class AddNewScreen extends React.Component {
           {text: 'OK', onPress: () => {
             Customer.insert(this.state).then((res) => {
               this.setState({custId: res.insertId});
-              Txn.insert(this.state).then(
-                (res) => ToastAndroid.show('Successfully inserted!', ToastAndroid.SHORT), 
-                (err) => console.log(err)
-              ).then(() => this.resetState());
-            });
+              Txn.insert(this.state);
+            }).then(
+              (res) => ToastAndroid.show('Successfully inserted!', ToastAndroid.SHORT), 
+              (err) => console.log(err)
+            ).then(() => this.resetState());
           }},
         ]
         );

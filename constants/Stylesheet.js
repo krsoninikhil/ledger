@@ -1,4 +1,5 @@
 import { StyleSheet, Platform, } from 'react-native';
+import Colors from './Colors';
 
 const styles = StyleSheet.create({
     root: {
@@ -21,14 +22,25 @@ const styles = StyleSheet.create({
       backgroundColor: '#fff',
       height: 75,
       borderRadius: 5,
-      paddingHorizontal: 5,
+      paddingHorizontal: 12,
       paddingVertical: 5,
-      marginVertical: 1,
-      marginHorizontal: 3,
+      marginVertical: 2,
+      marginHorizontal: 7,
       flexDirection: 'row',
     },
+    itemContainerVertical: {
+      flex: 1,
+      backgroundColor: '#fff',
+      minHeight: 100,
+      borderRadius: 5,
+      paddingHorizontal: 0,
+      paddingVertical: 0,
+      marginVertical: 2,
+      marginHorizontal: 7,
+      flexDirection: 'column',
+    },
     subHeading: {
-      color: 'rgba(110, 134, 155, 0.4)',
+      color: Colors.lightText,
       fontSize: 15,
       lineHeight: 22,
       textAlign: 'left',
@@ -69,15 +81,16 @@ const styles = StyleSheet.create({
     },
     heading: {
       fontSize: 20,
-      color: '#2e78b7',
+      color: Colors.text,
       lineHeight: 32,
       textAlign: 'left',
     },
     heading2: {
-      fontSize: 17,
-      color: '#2e78b7',
-      lineHeight: 23,
+      fontSize: 16,
+      color: Colors.text,
+      lineHeight: 24,
       textAlign: 'left',
+      paddingTop: 3,
     },
     tabBarInfoContainer: {
       position: 'absolute',
@@ -101,28 +114,17 @@ const styles = StyleSheet.create({
     },
     symbol: {
       fontSize: 27,
-      color: '#2e78b7',
+      color: Colors.symbol,
       textAlign: 'center',
     },
     amount: {
       fontSize: 25,
-      color: '#2e78b7',
+      color: Colors.text,
       textAlign: 'right',
-    },
-    itemContainerVertical: {
-      flex: 1,
-      backgroundColor: '#fff',
-      minHeight: 100,
-      borderRadius: 5,
-      paddingHorizontal: 0,
-      paddingVertical: 0,
-      marginVertical: 1,
-      marginHorizontal: 3,
-      flexDirection: 'column',
     },
     box: {
       flex: 1,
-      paddingHorizontal: 8,
+      paddingHorizontal: 12,
       paddingVertical: 10,
       alignItems: 'flex-start',
     },
@@ -154,7 +156,12 @@ const styles = StyleSheet.create({
 		btnText: {
 			color: '#fff',
 			textAlign: 'center',
-		}
+    },
+    textCenter: {
+      color: Colors.text,
+      textAlign: 'center',
+      marginVertical: 3,
+    },
   });
   
 export default styles;

@@ -39,6 +39,11 @@ export default class HomeScreen extends React.Component {
   }
 
   render() {
+    if (this.state.data.length) {
+      return (
+        <Text style={Styles.textCenter}>Click on 'Add New' tab to record your first transaction entry.</Text>
+      )
+    }
     return (
       <View style={Styles.root}>
         <FlatList style={Styles.container} contentContainerStyle={Styles.contentContainer}

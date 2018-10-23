@@ -13,17 +13,17 @@ class TxnBox extends React.Component {
     getDay(date) {
         let parts = date.split('-');
         date = new Date(`${parts[1]}/${parts[0]}/${parts[2]}`);
-        let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        let days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
         return days[date.getDay()];
     }
 
     render() {
         return (
             <View style={Styles.itemContainerVertical}>
-                <View style={[Styles.itemContainer, {height: 50}]}>
+                <View style={[Styles.itemContainer, {height: 40, marginHorizontal: 0, marginVertical: 0}]}>
                     <View style={Styles.midBox50}>
                         <Text style={Styles.heading2}>
-                            {this.getDay(this.props.date)}{"\n"}{this.props.date}
+                            {this.getDay(this.props.date)}{" "}{this.props.date}
                         </Text>
                     </View>
                     <View style={Styles.midBox50}>
