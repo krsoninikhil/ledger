@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     itemContainer: {
       flex: 1,
       backgroundColor: '#fff',
-      height: 75,
+      height: 70,
       borderRadius: 5,
       paddingHorizontal: 12,
       paddingVertical: 5,
@@ -51,13 +51,13 @@ const styles = StyleSheet.create({
       alignItems: 'center'
     },
     rightBox20: {
-      flex: 1,
+      flex: 0.2,
       paddingHorizontal: 2,
       paddingVertical: 2,
       alignItems: 'flex-end',
     },
     leftBox80: {
-      flex: 4,
+      flex: 0.8,
       paddingHorizontal: 2,
       paddingVertical: 2,
       alignItems: 'flex-start',
@@ -84,6 +84,7 @@ const styles = StyleSheet.create({
       color: Colors.text,
       lineHeight: 32,
       textAlign: 'left',
+      paddingTop: 2,
     },
     heading2: {
       fontSize: 16,
@@ -151,7 +152,8 @@ const styles = StyleSheet.create({
 			flex: 1,
 			backgroundColor: '#2e78b7',
 			height: 50,
-			borderRadius: 5, 
+      borderRadius: 5, 
+      zIndex: -1,
 		},
 		btnText: {
 			color: '#fff',
@@ -162,6 +164,19 @@ const styles = StyleSheet.create({
       textAlign: 'center',
       marginVertical: 5,
     },
+    absoluteBox: {
+      position: 'absolute',
+      flex: 1,
+      width: '100%',
+      flexDirection: 'column',
+      // paddingHorizontal: 5,
+      // paddingVertical: 5,
+      top: 50,
+      left: 0,
+      zIndex: 100,
+      elevation: 2,
+      backgroundColor: '#cdcdcd',
+    }
   });
   
 export default styles;

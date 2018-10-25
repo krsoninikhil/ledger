@@ -11,6 +11,7 @@ import DatePicker from 'react-native-datepicker'
 import Styles from '../constants/Stylesheet';
 import Customer from '../database/Customer';
 import Txn from '../database/Txn';
+import SuggestionBox from '../components/SuggestionBox';
 
 export default class AddNewScreen extends React.Component {
   static navigationOptions = {
@@ -45,6 +46,7 @@ export default class AddNewScreen extends React.Component {
       date: defaultState.date ? defaultState.date : this.today,
       note: defaultState.note ? defaultState.note : '',
       custId: defaultState.custId ? defaultState.custId : null,
+      suggestions: this.state && this.state.suggestions ? this.state.suggestions : [],
     }
   }
 
@@ -83,28 +85,46 @@ export default class AddNewScreen extends React.Component {
     }
   }
 
+  update(key) {
+    return (text) => this.setState({[key]: text});
+  }
+
+  updateAndSuggest(key) {
+    return (text) => {
+      this.update(key)(text);
+      Customer.search(this.state[key]).then(({_array}) => {this.setState({suggestions: _array})});
+    }
+  }
+
+  applyChoice() {
+    return (item) => {console.log(item);
+      this.setState({custId: item.id, custName: item.name, contact: item.contact});console.log(this.state.name);
+    }
+  }
+
   render() {
     return (
       <View style={Styles.itemContainerVertical}>
+        <SuggestionBox suggestions={this.state.suggestions} onChooosing={this.applyChoice()} />
         <View>
           <TextInput placeholder='Customer Name'
-            onChangeText={(text) => this.setState({custName: text})} 
+            onChangeText={this.updateAndSuggest('custName')} 
             value={this.state.custName} style={Styles.textInput} />
           <TextInput placeholder='Contact (Optional)' 
-            onChangeText={(text) => this.setState({contact: text})} 
+            onChangeText={this.update('contact')} 
             value={this.state.contact} style={Styles.textInput} keyboardType='numeric' />
         </View>
         <View style={Styles.row}>
           <TextInput placeholder='Amount' style={[Styles.midBox50, Styles.textInput]} 
-            onChangeText={(text) => this.setState({amount: text})} 
+            onChangeText={this.update('amount')} 
             value={this.state.amount} keyboardType='numeric' />
           <DatePicker placeholder='Date' style={Styles.midBox50} 
-            onDateChange={(text) => this.setState({date: text})}
+            onDateChange={this.update('date')}
             date={this.state.date} format='DD-MM-YYYY' />
         </View>
         <View style={Styles.column}>
           <TextInput placeholder='Note (Optional)' 
-            onChangeText={(text) => this.setState({note: text})} 
+            onChangeText={this.update('note')} 
             value={this.state.note} style={Styles.textInput} />
           <Button style={Styles.fullButton} title='Submit' onPress={this.addNewEntry} />
         </View>

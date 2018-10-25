@@ -35,7 +35,7 @@ const Txn = {
     }, 
 
     find: (custId) => {
-        return CommonDbOps.select(table, 'id desc', ['date', 'amount', 'note'], 'custId = ?', [custId]);
+        return CommonDbOps.select(table, 'date desc', ['date', 'amount', 'note'], 'custId = ?', [custId]);
     },
 
     count: () => {

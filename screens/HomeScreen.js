@@ -45,32 +45,30 @@ export default class HomeScreen extends React.Component {
       )
     }
     return (
-      <View style={Styles.root}>
-        <FlatList style={Styles.container} contentContainerStyle={Styles.contentContainer}
-          data={this.state.data}
-          renderItem={({item}) => (
-            <View style={Styles.itemContainer}>
-              <TouchableNativeFeedback
-                  onPress={() => this.props.navigation.navigate(
-                    'Txns', 
-                    {custName: item.name, custId: item.id}
-                  )}
-                  style={Styles.leftBox80}>
-                <View style={Styles.occupy}>
-                  <Text style={Styles.heading}>{item.name}</Text>
-                  <Text style={Styles.subHeading}>{Strings.curr} {item.balance.toString()}</Text>
-                </View>
-              </TouchableNativeFeedback>
-              <View style={Styles.rightBox20}>
-                <TouchableOpacity style={Styles.button}>
-                  <Text style={Styles.symbol} onPress={this.goToAddNewTxn(item)}> + </Text>
-                </TouchableOpacity>
+      <FlatList
+        data={this.state.data}
+        renderItem={({item}) => (
+          <View style={Styles.itemContainer}>
+            <TouchableNativeFeedback
+                onPress={() => this.props.navigation.navigate(
+                  'Txns', 
+                  {custName: item.name, custId: item.id}
+                )}
+                style={Styles.leftBox80}>
+              <View style={Styles.occupy}>
+                <Text style={Styles.heading2}>{item.name}</Text>
+                <Text style={Styles.subHeading}>{Strings.curr} {item.balance.toString()}</Text>
               </View>
+            </TouchableNativeFeedback>
+            <View style={Styles.rightBox20}>
+              <TouchableOpacity style={Styles.button}>
+                <Text style={Styles.symbol} onPress={this.goToAddNewTxn(item)}> + </Text>
+              </TouchableOpacity>
             </View>
-          )}
-          keyExtractor={(item, index) => index.toString()}
-        /> 
-      </View>
+          </View>
+        )}
+        keyExtractor={(item, index) => index.toString()}
+      />
     );
   }
 

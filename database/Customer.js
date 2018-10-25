@@ -38,6 +38,11 @@ const Customer = {
         return CommonDbOps.run(`select sum(balance) as totalBalance from ${table};`);
     },
 
+    search: (word) => {
+        return CommonDbOps.select(table, 'name', ['id', 'name', 'contact', 'balance'], 
+            `name like "%${word}%"`);
+    }
+
 }
 
 export default Customer;
