@@ -152,8 +152,7 @@ const styles = StyleSheet.create({
 			flex: 1,
 			backgroundColor: '#2e78b7',
 			height: 50,
-      borderRadius: 5, 
-      zIndex: -1,
+      borderRadius: 5,
 		},
 		btnText: {
 			color: '#fff',
@@ -169,13 +168,14 @@ const styles = StyleSheet.create({
       flex: 1,
       width: '100%',
       flexDirection: 'column',
-      // paddingHorizontal: 5,
-      // paddingVertical: 5,
       top: 50,
       left: 0,
-      zIndex: 100,
-      elevation: 2,
+      zIndex: 2,
+      elevation: 10,
       backgroundColor: '#cdcdcd',
+    },
+    deep: {
+      zIndex: 1,
     }
   });
   

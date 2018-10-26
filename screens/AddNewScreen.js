@@ -46,7 +46,7 @@ export default class AddNewScreen extends React.Component {
       date: defaultState.date ? defaultState.date : this.today,
       note: defaultState.note ? defaultState.note : '',
       custId: defaultState.custId ? defaultState.custId : null,
-      suggestions: this.state && this.state.suggestions ? this.state.suggestions : [],
+      suggestions: defaultState.suggestions ? defaultState.suggestions : [],
     }
   }
 
@@ -57,6 +57,10 @@ export default class AddNewScreen extends React.Component {
   }
 
   addNewEntry() {
+    if (!this.state.custName || !this.state.amount || !this.state.date) {
+      Alert.alert('Invalid Details', 'Name, Amount and Date are required!');
+      return;
+    }
     if (!this.state.custId) {
       Alert.alert(
         'Add New',
@@ -92,21 +96,15 @@ export default class AddNewScreen extends React.Component {
   updateAndSuggest(key) {
     return (text) => {
       this.update(key)(text);
-      Customer.search(this.state[key]).then(({_array}) => {this.setState({suggestions: _array})});
-    }
-  }
-
-  applyChoice() {
-    return (item) => {console.log(item);
-      this.setState({custId: item.id, custName: item.name, contact: item.contact});console.log(this.state.name);
+      Customer.search(text).then(({_array}) => {this.setState({suggestions: _array})});
     }
   }
 
   render() {
     return (
       <View style={Styles.itemContainerVertical}>
-        <SuggestionBox suggestions={this.state.suggestions} onChooosing={this.applyChoice()} />
-        <View>
+        <SuggestionBox suggestions={this.state.suggestions} parent={this} />
+        <View style={Styles.deep}>
           <TextInput placeholder='Customer Name'
             onChangeText={this.updateAndSuggest('custName')} 
             value={this.state.custName} style={Styles.textInput} />

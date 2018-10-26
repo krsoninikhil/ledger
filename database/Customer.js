@@ -39,6 +39,10 @@ const Customer = {
     },
 
     search: (word) => {
+        if (!word) {
+            // just in case there are entries without name
+            return new Promise((resolve, reject) => resolve({_array: []})); 
+        }
         return CommonDbOps.select(table, 'name', ['id', 'name', 'contact', 'balance'], 
             `name like "%${word}%"`);
     }

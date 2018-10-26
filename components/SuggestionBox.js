@@ -15,8 +15,15 @@ export default class SuggestionBox extends React.Component {
 
     choose(item) {
         return () => {
-            if (this.props.onChoosing) {
-                this.props.onChoosing(item);
+            if (this.props.parent) {
+                this.props.parent.setState({
+                    custId: item.id, 
+                    custName: item.name, 
+                    contact: item.contact, 
+                    suggestions: []
+                });
+            } else {
+                console.log("'parent' prop is expected!");
             }
         }
     }
@@ -26,26 +33,27 @@ export default class SuggestionBox extends React.Component {
             return (null);
         }
         return (
-            <FlatList 
-                data={this.props.suggestions}
-                renderItem={({item}) => (
-                    <TouchableNativeFeedback onPress={this.choose(item)}>
-                        <View style={Styles.itemContainer}>
-                            <View>
-                                <View style={[Styles.leftBox80, Styles.column]}>
-                                    <Text style={Styles.heading2}>{item.name}</Text>
-                                    <Text style={Styles.subHeading}>{item.contact}</Text>
-                                </View>
-                                <View style={Styles.rightBox20}>
-                                    <Text style={Styles.symbol}></Text>
+            <View style={Styles.absoluteBox}>
+                <FlatList 
+                    data={this.props.suggestions}
+                    renderItem={({item}) => (
+                        <TouchableNativeFeedback onPress={this.choose(item)}>
+                            <View style={Styles.itemContainer}>
+                                <View>
+                                    <View style={[Styles.leftBox80, Styles.column]}>
+                                        <Text style={Styles.heading2}>{item.name}</Text>
+                                        <Text style={Styles.subHeading}>{item.contact}</Text>
+                                    </View>
+                                    <View style={Styles.rightBox20}>
+                                        <Text style={Styles.symbol}></Text>
+                                    </View>
                                 </View>
                             </View>
-                        </View>
-                    </TouchableNativeFeedback>
-                )}
-                style={Styles.absoluteBox}
-                keyExtractor={(item, index) => index.toString()}
-            />
+                        </TouchableNativeFeedback>
+                    )}
+                    keyExtractor={(item, index) => index.toString()}
+                />
+            </View>
         );
     }
 }
