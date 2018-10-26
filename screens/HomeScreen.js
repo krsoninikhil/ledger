@@ -4,6 +4,7 @@ import {
   TouchableOpacity,
   TouchableNativeFeedback,
   View,
+  TextInput,
 } from 'react-native';
 import Styles from '../constants/Stylesheet';
 import { FlatList } from 'react-native-gesture-handler';
@@ -17,14 +18,12 @@ export default class HomeScreen extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {data: []};
+    this.state = {data: [], searchKey: ''};
   }
   
   componentDidMount() {
     this.props.navigation.addListener('didFocus', () => {
-      Customer.findAll().then(
-        (rows) => this.setState({data: rows._array})
-      );
+      this.getCustomers(this.state.searchKey);
     });
   }
     
@@ -38,6 +37,19 @@ export default class HomeScreen extends React.Component {
     }
   }
 
+  getCustomers(searchKey) {
+    (searchKey ? Customer.search(searchKey) : Customer.findAll()).then(
+      ({_array}) => this.setState({data: _array})
+    );
+  }
+
+  search() {
+    return (text) => {
+      this.setState({searchKey: text});
+      this.getCustomers(text);
+    }
+  }
+
   render() {
     if (!this.state.data.length) {
       return (
@@ -45,30 +57,38 @@ export default class HomeScreen extends React.Component {
       )
     }
     return (
-      <FlatList
-        data={this.state.data}
-        renderItem={({item}) => (
-          <View style={Styles.itemContainer}>
-            <TouchableNativeFeedback
-                onPress={() => this.props.navigation.navigate(
-                  'Txns', 
-                  {custName: item.name, custId: item.id}
-                )}
-                style={Styles.leftBox80}>
-              <View style={Styles.occupy}>
-                <Text style={Styles.heading2}>{item.name}</Text>
-                <Text style={Styles.subHeading}>{Strings.curr} {item.balance.toString()}</Text>
+      <View>
+        <TextInput 
+          style={Styles.textInput} 
+          value={this.state.searchKey} 
+          onChangeText={this.search()}
+          placeholder='Seach'
+        />
+        <FlatList
+          data={this.state.data}
+          renderItem={({item}) => (
+            <View style={Styles.itemContainer}>
+              <TouchableNativeFeedback
+                  onPress={() => this.props.navigation.navigate(
+                    'Txns', 
+                    {custName: item.name, custId: item.id}
+                  )}
+                  style={Styles.leftBox80}>
+                <View style={Styles.occupy}>
+                  <Text style={Styles.heading2}>{item.name}</Text>
+                  <Text style={Styles.subHeading}>{Strings.curr} {item.balance.toString()}</Text>
+                </View>
+              </TouchableNativeFeedback>
+              <View style={Styles.rightBox20}>
+                <TouchableOpacity style={Styles.button}>
+                  <Text style={Styles.symbol} onPress={this.goToAddNewTxn(item)}> + </Text>
+                </TouchableOpacity>
               </View>
-            </TouchableNativeFeedback>
-            <View style={Styles.rightBox20}>
-              <TouchableOpacity style={Styles.button}>
-                <Text style={Styles.symbol} onPress={this.goToAddNewTxn(item)}> + </Text>
-              </TouchableOpacity>
             </View>
-          </View>
-        )}
-        keyExtractor={(item, index) => index.toString()}
-      />
+          )}
+          keyExtractor={(item, index) => index.toString()}
+        />
+      </View>
     );
   }
 
