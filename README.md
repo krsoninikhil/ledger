@@ -1,4 +1,4 @@
-# Ledger App
+# Ledger
 Mobile application to maintain a minimal ledger for small businesses. Works offline and your data remains on your device.
 
 # Todo

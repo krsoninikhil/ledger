@@ -21,7 +21,11 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "io.github.krsoninikhil"
+    },
+    "android": {
+      "package": "io.github.krsoninikhil"
     }
   }
 }
