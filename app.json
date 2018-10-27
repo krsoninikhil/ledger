@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "ledger",
-    "description": "A minimal ledger small businesses.",
+    "description": "A minimal ledger for small businesses.",
     "slug": "ledger",
     "privacy": "public",
     "sdkVersion": "30.0.0",
