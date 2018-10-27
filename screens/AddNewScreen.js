@@ -30,6 +30,9 @@ export default class AddNewScreen extends React.Component {
   componentDidMount() {
     this.props.navigation.addListener('didFocus', () => {
       this.setState(this.extractState(this.props.navigation.getParam('customer')));
+      this.props.navigation.getParam('customer') 
+        ? setTimeout(() => this.refs.amount.focus(), 500)  // without timeout, keyboard doesn't appear
+        : null;
     });
   }
 
@@ -114,7 +117,7 @@ export default class AddNewScreen extends React.Component {
         </View>
         <View style={Styles.row}>
           <TextInput placeholder='Amount' style={[Styles.midBox50, Styles.textInput]} 
-            onChangeText={this.update('amount')} 
+            onChangeText={this.update('amount')} ref='amount' 
             value={this.state.amount} keyboardType='numeric' />
           <DatePicker placeholder='Date' style={Styles.midBox50} 
             onDateChange={this.update('date')}

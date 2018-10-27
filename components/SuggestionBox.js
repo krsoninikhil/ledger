@@ -22,6 +22,7 @@ export default class SuggestionBox extends React.Component {
                     contact: item.contact, 
                     suggestions: []
                 });
+                this.props.parent.refs.amount.focus();
             } else {
                 console.log("'parent' prop is expected!");
             }
