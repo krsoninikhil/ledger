@@ -1,4 +1,4 @@
-import { StyleSheet, Platform, } from 'react-native';
+import { StyleSheet, Platform, Dimensions } from 'react-native';
 import Colors from './Colors';
 
 const styles = StyleSheet.create({
@@ -165,14 +165,15 @@ const styles = StyleSheet.create({
     },
     absoluteBox: {
       position: 'absolute',
-      flex: 1,
       width: '100%',
+      maxHeight: Dimensions.get('window').height * 0.7,
       flexDirection: 'column',
       top: 50,
       left: 0,
       zIndex: 2,
       elevation: 10,
       backgroundColor: '#cdcdcd',
+
     },
     deep: {
       zIndex: 1,
