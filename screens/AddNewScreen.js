@@ -2,7 +2,7 @@ import React from 'react';
 import {
   View,
   TextInput, 
-  Button,
+  TouchableOpacity,
   Alert,
   ToastAndroid,
 } from 'react-native';
@@ -23,6 +23,7 @@ export default class AddNewScreen extends React.Component {
     this.today = this.getDate();
     this.state = this.extractState({});
     this.addNewEntry = this.addNewEntry.bind(this);
+    this.resetState = this.resetState.bind(this);
     Customer.init();
     Txn.init();
   }
@@ -30,14 +31,10 @@ export default class AddNewScreen extends React.Component {
   componentDidMount() {
     this.props.navigation.addListener('didFocus', () => {
       this.setState(this.extractState(this.props.navigation.getParam('customer')));
-      this.props.navigation.getParam('customer') 
-        ? setTimeout(() => this.refs.amount.focus(), 500)  // without timeout, keyboard doesn't appear
-        : null;
+      if (this.props.navigation.getParam('customer')) {
+        setTimeout(() => this.refs.amount.focus(), 500);  // without timeout, keyboard doesn't appear
+      }
     });
-  }
-
-  resetState() {
-    this.setState(this.extractState({}));
   }
 
   extractState(defaultState) {
@@ -50,7 +47,15 @@ export default class AddNewScreen extends React.Component {
       note: defaultState.note ? defaultState.note : '',
       custId: defaultState.custId ? defaultState.custId : null,
       suggestions: defaultState.suggestions ? defaultState.suggestions : [],
+      newEntry: defaultState.custId ? false : true,
     }
+  }
+
+  resetState() {
+    this.setState(this.extractState());
+    this.props.navigation ? this.props.navigation.customer = {} : null;
+    this.refs.custName.focus();
+
   }
 
   getDate() {
@@ -108,10 +113,10 @@ export default class AddNewScreen extends React.Component {
       <View style={Styles.itemContainerVertical}>
         <SuggestionBox suggestions={this.state.suggestions} parent={this} />
         <View style={Styles.deep}>
-          <TextInput placeholder='Customer Name'
+          <TextInput placeholder='Customer Name' editable={this.state.newEntry} ref='custName'
             onChangeText={this.updateAndSuggest('custName')} 
             value={this.state.custName} style={Styles.textInput} />
-          <TextInput placeholder='Contact (Optional)' 
+          <TextInput placeholder='Contact (Optional)' editable={this.state.newEntry} 
             onChangeText={this.update('contact')} 
             value={this.state.contact} style={Styles.textInput} keyboardType='numeric' />
         </View>
@@ -123,11 +128,19 @@ export default class AddNewScreen extends React.Component {
             onDateChange={this.update('date')}
             date={this.state.date} format='DD-MM-YYYY' />
         </View>
-        <View style={Styles.column}>
+        <View>
           <TextInput placeholder='Note (Optional)' 
             onChangeText={this.update('note')} 
             value={this.state.note} style={Styles.textInput} />
-          <Button style={Styles.fullButton} title='Submit' onPress={this.addNewEntry} />
+        </View>
+        <View style={Styles.row}>
+          <TouchableOpacity onPress={this.resetState} 
+              style={[Styles.fullButton, {backgroundColor: 'grey'}]} >
+            <Text style={Styles.btnText}>Reset</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={Styles.fullButton} onPress={this.addNewEntry}>
+            <Text style={Styles.btnText}>Submit</Text>
+          </TouchableOpacity>
         </View>
       </View>
     );

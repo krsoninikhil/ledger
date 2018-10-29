@@ -20,19 +20,23 @@ class TxnBox extends React.Component {
     render() {
         return (
             <View style={Styles.itemContainerVertical}>
-                <View style={[Styles.itemContainer, {height: 40, marginHorizontal: 0, marginVertical: 0}]}>
+                <View style={[Styles.itemContainer, {height: 45, marginHorizontal: 0, marginVertical: 0}]}>
                     <View style={Styles.midBox50}>
                         <Text style={Styles.heading2}>
                             {this.getDay(this.props.date)}{" "}{this.props.date}
                         </Text>
                     </View>
                     <View style={Styles.midBox50}>
-                        <Text style={Styles.amount}>{Strings.curr} {this.props.amount}</Text>
+                        <Text style={[Styles.heading2, Styles.alignRight]}>{Strings.curr} {this.props.amount}</Text>
                     </View>
                 </View>
-                <View style={Styles.box}>
-                    <Text style={Styles.subHeading}>{this.props.note}</Text>
-                </View>
+                {
+                    this.props.note 
+                        ?   <View style={Styles.box}>
+                                <Text style={Styles.subHeading}>{this.props.note}</Text>
+                            </View>
+                        :   null
+                }
             </View>
         );
     }
@@ -56,7 +60,12 @@ export default class TxnsScreen extends React.Component {
             <FlatList
                 data={this.state.txns}
                 renderItem={({item}) => (
-                    <TxnBox amount={item.amount.toString()} date={item.date} note={item.note} />
+                    <TxnBox 
+                        amount={item.amount.toString()} 
+                        date={item.date} 
+                        note={item.note} 
+                        txId={item.id} 
+                    />
                 )}
                 keyExtractor={(item, index) => index.toString()}
             />

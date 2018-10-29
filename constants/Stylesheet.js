@@ -11,6 +11,7 @@ const styles = StyleSheet.create({
     row: {
       padding: 5,
       flexDirection: 'row',
+      width: '100%',
 			justifyContent: 'center',
     },
     column: {
@@ -31,7 +32,6 @@ const styles = StyleSheet.create({
     itemContainerVertical: {
       flex: 1,
       backgroundColor: '#fff',
-      minHeight: 100,
       borderRadius: 5,
       paddingHorizontal: 0,
       paddingVertical: 0,
@@ -149,10 +149,11 @@ const styles = StyleSheet.create({
 			paddingHorizontal: 15,
       paddingVertical: 10,
 			alignItems: 'center',
-			flex: 1,
+			width: '50%',
 			backgroundColor: '#2e78b7',
 			height: 50,
       borderRadius: 5,
+      marginHorizontal: 2,
 		},
 		btnText: {
 			color: '#fff',
@@ -177,6 +178,9 @@ const styles = StyleSheet.create({
     },
     deep: {
       zIndex: 1,
+    },
+    alignRight: {
+      textAlign: 'right',
     }
   });
   
