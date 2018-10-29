@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   Alert,
   ToastAndroid,
+  Text,
 } from 'react-native';
 import DatePicker from 'react-native-datepicker'
 
