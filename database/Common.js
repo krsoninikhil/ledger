@@ -77,9 +77,22 @@ const CommonDbOps = {
                     (_, {rows}) => resolve(rows),
                     (_, err) => console.log(err)
                 );
-            })
+            });
         });
     },
+
+    delete: (table, cond, condVars) => {
+        return new Promise((resolve, reject) => {
+            db.transaction(tx => {
+                tx.executeSql(
+                    `delete from ${table} where ${cond};`,
+                    condVars,
+                    (_, {rows}) => resolve(rows),
+                    (_, err) => console.log(err)
+                );
+            });
+        });
+    }
 }
 
 export default CommonDbOps;

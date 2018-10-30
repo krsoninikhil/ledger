@@ -2,6 +2,7 @@ import React from 'react';
 import {
     View,
     Text,
+    Alert,
 } from 'react-native';
 import Styles from '../constants/Stylesheet';
 import { FlatList } from 'react-native-gesture-handler';
@@ -22,12 +23,15 @@ class TxnBox extends React.Component {
             <View style={Styles.itemContainerVertical}>
                 <View style={[Styles.itemContainer, {height: 45, marginHorizontal: 0, marginVertical: 0}]}>
                     <View style={Styles.midBox50}>
-                        <Text style={Styles.heading2}>
-                            {this.getDay(this.props.date)}{" "}{this.props.date}
-                        </Text>
+                        <Text style={[Styles.heading2]}>{Strings.curr} {this.props.amount}</Text>
                     </View>
-                    <View style={Styles.midBox50}>
-                        <Text style={[Styles.heading2, Styles.alignRight]}>{Strings.curr} {this.props.amount}</Text>
+                    <View style={[Styles.midBox50, Styles.justRow]}>
+                        <Text style={[Styles.heading2, Styles.alignRight]}>
+                            {this.props.date} {' - '}
+                        </Text>
+                        <Text style={[Styles.heading2, Styles.link, Styles.alignRight]} onPress={this.props.deleteTxn(this.props.txId)}>
+                            {' Delete'}
+                        </Text>
                     </View>
                 </View>
                 {
@@ -53,6 +57,26 @@ export default class TxnsScreen extends React.Component {
         Txn.find(this.props.navigation.getParam('custId')).then(
             (rows) => this.setState({txns: rows._array})
         );
+        this.deleteTxn = this.deleteTxn.bind(this);
+    }
+
+    deleteTxn(txId) {
+        return () => {
+            Alert.alert('Delete Transaction', 'Are you sure?', [
+                {text: 'No', onPress: () => null},
+                {text: 'Yes', onPress: () => {
+                    Txn.delete(txId).then(null, (err) => console.log(err));
+                    let txns = this.state.txns;
+                    for (let i = 0; i < txns.length; i++) {
+                        if (txns[i].id == txId) {
+                            txns.splice(i, 1);
+                            break;
+                        }
+                    };
+                    this.setState({txns: txns});
+                }}
+            ]);
+        }
     }
 
     render() {
@@ -65,6 +89,7 @@ export default class TxnsScreen extends React.Component {
                         date={item.date} 
                         note={item.note} 
                         txId={item.id} 
+                        deleteTxn={this.deleteTxn}
                     />
                 )}
                 keyExtractor={(item, index) => index.toString()}

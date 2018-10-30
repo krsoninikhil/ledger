@@ -42,6 +42,10 @@ const Txn = {
         return CommonDbOps.count(table);
     },
 
+    delete: (txId) => {
+        return CommonDbOps.delete(table, 'id = ?', [txId]);
+    }
+
 }
 
 export default Txn;

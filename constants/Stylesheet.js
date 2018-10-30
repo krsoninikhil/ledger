@@ -14,6 +14,9 @@ const styles = StyleSheet.create({
       width: '100%',
 			justifyContent: 'center',
     },
+    justRow: {
+      flexDirection: 'row',
+    },
     column: {
       padding: 5,
       flexDirection: 'column',
@@ -157,7 +160,8 @@ const styles = StyleSheet.create({
 		},
 		btnText: {
 			color: '#fff',
-			textAlign: 'center',
+      textAlign: 'center',
+      fontSize: 20,
     },
     textCenter: {
       color: Colors.text,
@@ -174,13 +178,15 @@ const styles = StyleSheet.create({
       zIndex: 2,
       elevation: 10,
       backgroundColor: '#cdcdcd',
-
     },
     deep: {
       zIndex: 1,
     },
     alignRight: {
       textAlign: 'right',
+    },
+    link: {
+      color: Colors.link,
     }
   });
   

@@ -3,6 +3,7 @@ import {
     View,
     Text,
     TouchableNativeFeedback,
+    ToastAndroid,
 } from 'react-native';
 import { FlatList } from "react-native-gesture-handler";
 import Styles from "../constants/Stylesheet";
@@ -20,8 +21,10 @@ export default class SuggestionBox extends React.Component {
                     custId: item.id, 
                     custName: item.name, 
                     contact: item.contact, 
-                    suggestions: []
+                    suggestions: [],
+                    newEntry: false,
                 });
+                ToastAndroid.show('To change customer, press \'Reset\'', ToastAndroid.SHORT);
                 this.props.parent.refs.amount.focus();
             } else {
                 console.log("'parent' prop is expected!");

@@ -71,30 +71,26 @@ export default class AddNewScreen extends React.Component {
       return;
     }
     if (!this.state.custId) {
-      Alert.alert(
-        'Add New',
-        'A new customer entry will be made as prefilled name field is not used!',
-        [
-          {text: 'Cancel', onPress: null},
-          {text: 'OK', onPress: () => {
-            Customer.insert(this.state).then((res) => {
-              this.setState({custId: res.insertId});
-              Txn.insert(this.state);
-            }).then(
-              (res) => ToastAndroid.show('Successfully inserted!', ToastAndroid.SHORT), 
-              (err) => console.log(err)
-            ).then(() => this.resetState());
-          }},
-        ]
-        );
-      } else {
-        Txn.insert(this.state).then(
-          (res) => {
-            ToastAndroid.show('Successfully inserted!', ToastAndroid.SHORT);
-            Customer.updateBalance(this.state.custId, this.state.amount);
-          },
-          (err) => console.log(err)
-        ).then(() => this.resetState());
+      Alert.alert('Add New', 'A new customer entry will be made!', [
+        {text: 'Cancel', onPress: null},
+        {text: 'OK', onPress: () => {
+          Customer.insert(this.state).then((res) => {
+            this.setState({custId: res.insertId});
+            Txn.insert(this.state);
+          }).then(
+            (res) => ToastAndroid.show('Successfully inserted!', ToastAndroid.SHORT), 
+            (err) => console.log(err)
+          ).then(() => this.resetState());
+        }},
+      ]);
+    } else {
+      Txn.insert(this.state).then(
+        (res) => {
+          ToastAndroid.show('Successfully inserted!', ToastAndroid.SHORT);
+          Customer.updateBalance(this.state.custId, this.state.amount);
+        },
+        (err) => console.log(err)
+      ).then(() => this.resetState());
     }
   }
 
