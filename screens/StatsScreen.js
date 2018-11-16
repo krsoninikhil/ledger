@@ -4,21 +4,9 @@ import Styles from '../constants/Stylesheet';
 import Strings from '../constants/Strings';
 import Txn from '../database/Txn';
 import Customer from '../database/Customer';
+import StatItem from '../components/StatItem';
+import ExportBackup from '../components/ExportBackup';
 
-class StatItem extends React.Component {
-  render() {
-    return (
-      <View style={[Styles.itemContainer, {height: 50}]}>
-        <View style={Styles.leftBox60}>
-          <Text style={Styles.heading2}>{this.props.text} </Text>
-        </View>
-        <View style={Styles.rightBox40}>
-          <Text style={Styles.heading}>{this.props.value} </Text>
-        </View>
-      </View>
-    );
-  }
-}
 
 export default class StatsScreen extends React.Component {
   static navigationOptions = {
@@ -32,9 +20,9 @@ export default class StatsScreen extends React.Component {
 
   componentDidMount() {
     this.props.navigation.addListener('didFocus', () => {
-      let stats = this.state;
+      let stats = {};
       Customer.getBalance()
-        .then(({_array}) => stats.totalBalance = _array[0].totalBalance)
+        .then(({_array}) => stats.totalBalance = _array[0].totalBalance ?  _array[0].totalBalance : 0)
 
         .then(() => Customer.count())
         .then(({_array}) => stats.customerCount = _array[0].count)
@@ -52,6 +40,7 @@ export default class StatsScreen extends React.Component {
         <StatItem text='Total Outstanding Balance' value={`${Strings.curr} ${this.state.totalBalance}`} />
         <StatItem text='Total No. of Customers' value={this.state.customerCount} />
         <StatItem text='Total No. of Transactions' value={this.state.txnCount} />
+        <ExportBackup />
       </ScrollView>
     );
   }

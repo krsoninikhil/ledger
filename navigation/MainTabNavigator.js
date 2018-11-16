@@ -51,11 +51,11 @@ const StatsStack = createStackNavigator({
 });
 
 StatsStack.navigationOptions = {
-  tabBarLabel: 'Stats',
+  tabBarLabel: 'Dashboard',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
-      name='md-trending-up'
+      name='md-apps'
     />
   ),
 };

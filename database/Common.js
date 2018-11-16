@@ -1,6 +1,7 @@
 import Expo, { SQLite } from 'expo';
 
-const db = SQLite.openDatabase('ledgerV1.db');
+const dbName = 'ledgerV1.db';
+const db = SQLite.openDatabase(dbName);
 
 const CommonDbOps = {
     init: () => {
@@ -92,6 +93,11 @@ const CommonDbOps = {
                 );
             });
         });
+    },
+
+    getFile: () => {
+        const dbPath = Expo.FileSystem.documentDirectory + 'SQLite/' + dbName;
+        return dbPath;
     }
 }
 

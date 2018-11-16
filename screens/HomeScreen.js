@@ -10,6 +10,7 @@ import Styles from '../constants/Stylesheet';
 import { FlatList } from 'react-native-gesture-handler';
 import Strings from '../constants/Strings';
 import Customer from '../database/Customer';
+import Txn from '../database/Txn';
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -19,6 +20,8 @@ export default class HomeScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {data: [], searchKey: ''};
+    Customer.init();
+    Txn.init();
   }
   
   componentDidMount() {
@@ -62,7 +65,7 @@ export default class HomeScreen extends React.Component {
           style={Styles.textInput} 
           value={this.state.searchKey} 
           onChangeText={this.search()}
-          placeholder='Seach'
+          placeholder='Search'
         />
         <FlatList
           data={this.state.data}

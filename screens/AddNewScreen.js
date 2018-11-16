@@ -25,8 +25,6 @@ export default class AddNewScreen extends React.Component {
     this.state = this.extractState({});
     this.addNewEntry = this.addNewEntry.bind(this);
     this.resetState = this.resetState.bind(this);
-    Customer.init();
-    Txn.init();
   }
 
   componentDidMount() {

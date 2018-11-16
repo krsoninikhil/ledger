@@ -6,7 +6,7 @@ const table = 'txns';
 const Txn = {
     init: () => {
         CommonDbOps.run(
-            `create table if not exists txns (
+            `create table if not exists ${table} (
                 id integer primary key not null, 
                 custId int not null, 
                 amount int not null,
@@ -44,6 +44,15 @@ const Txn = {
 
     delete: (txId) => {
         return CommonDbOps.delete(table, 'id = ?', [txId]);
+    },
+
+    export: (start=1, limit=null) => {
+        limit = limit ? `limit ${limit}` : '';
+        return CommonDbOps.run(
+            `select t.id, c.id as custId, t.date, c.name, c.contact, t.amount, t.note 
+            from txns as t inner join customers as c on t.custId = c.id 
+            where t.id >= ${start} order by t.date ${limit}`,
+        );
     }
 
 }
